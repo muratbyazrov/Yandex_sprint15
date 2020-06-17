@@ -60,6 +60,13 @@ app.use(errorLogger);
 // подключаем логгер запросов
 app.use(requestLogger);
 
+// Краш тест
+app.use('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
 
