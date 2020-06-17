@@ -12,6 +12,13 @@ const {
   getUsers, getUserById, createUser, login,
 } = require('../controllers/users');
 
+// Краш тест
+usersRouter.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 // применяем нужные обработчики при соответсвующих запроссах
 // auth - это мидлвер для авторизации. После неё идут роуты, кторые нужно авторизовывать
 usersRouter.get('/', auth, getUsers);
