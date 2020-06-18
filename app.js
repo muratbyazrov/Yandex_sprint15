@@ -64,7 +64,7 @@ app.use(requestLogger);
 app.use('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
-  }, 1500);
+  }, 2500);
 });
 
 app.use('/users', usersRouter);
