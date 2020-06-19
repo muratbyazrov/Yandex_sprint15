@@ -3,6 +3,8 @@ const cardsRouter = require('express').Router();
 
 // подключим предварительную валидацию с помощью библиотек
 const { celebrate, Joi } = require('celebrate');
+// подключили валидацию id. Пришлось ставить доп. модуль https://www.npmjs.com/package/joi-objectid
+Joi.objectId = require('joi-objectid')(Joi);
 
 // подключили мидлвер для авторизации
 const auth = require('../middlewares/auth');
@@ -18,6 +20,10 @@ cardsRouter.post('/', celebrate({
     name: Joi.string().required().min(2).max(30),
   }).unknown(true),
 }), auth, createCard);
-cardsRouter.delete('/:cardId', auth, deleteCard);
+cardsRouter.delete('/:cardId', celebrate({
+  params: Joi.object().keys({
+    cardId: Joi.objectId(),
+  }),
+}), auth, deleteCard);
 
 module.exports = cardsRouter;

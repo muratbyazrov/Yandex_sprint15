@@ -18,6 +18,7 @@ const {
 // auth - это мидлвер для авторизации. После неё идут роуты, кторые нужно авторизовывать
 usersRouter.get('/', auth, getUsers);
 usersRouter.get('/:id', celebrate({
+  // валидируем параметр запроса. Для этого подгрузилил доп. модуль выше
   params: Joi.object().keys({
     id: Joi.objectId(),
   }),
