@@ -1,7 +1,7 @@
 {
   "name": "sprint12",
   "version": "1.0.0",
-  "description": "sprint12 from yandex.praktikum",
+  "description": "sprint15 from yandex.praktikum",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",

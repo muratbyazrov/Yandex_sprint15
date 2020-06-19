@@ -15,8 +15,14 @@ const {
 // применяем нужные обработчики при соответсвующих запросах
 // auth - это мидлвер для авторизации. После неё идут роуты, кторые нужно авторизовывать
 usersRouter.get('/', auth, getUsers);
-usersRouter.get('/:id', auth, getUserById);
+usersRouter.get('/:id', celebrate({
+  // валилируем параметр запроса id как ObjectId()
+  params: Joi.object().keys({
+    id: Joi.ObjectId(),
+  }),
+}), auth, getUserById);
 usersRouter.post('/signup', celebrate({
+  // body должно быть объектом с ключами name, about, ... с такими-то параметрами
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
     about: Joi.string().required().min(2).max(30),
