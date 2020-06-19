@@ -23,6 +23,7 @@ usersRouter.get('/:id', celebrate({
   }),
 }), auth, getUserById);
 usersRouter.post('/signup', celebrate({
+  // body должно быть объектом с ключами name, about, ... с такими-то параметрами
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
     about: Joi.string().required().min(2).max(30),
