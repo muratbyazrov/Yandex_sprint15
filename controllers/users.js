@@ -13,8 +13,7 @@ const BadReq = require('../errors/bad-req');
 const Unauthorized = require('../errors/unauthorized');
 
 /* Создаем обработчик, который передает в ответе всех пользователей.
-Метод findOne возвращает первый документ, соответствующий запросу. В данном случае, так как
-в запросе пусто, возвращаются все документы из БД, так они все сразу удовлетворяют запросу.
+Метод find возвращает все документы по запросу. В данном случае, с пустым запросом возвращаются все.
 Здесь мы подключили next - для централизованной обработки ошибок. обработчик next
 находится в конце файла app.js. Запись .catch(next) равносильна .catch(err => next(err));
 А когда в next есть аргумент, то запрос перейдет в обработчи ошибки
@@ -79,7 +78,7 @@ module.exports.createUser = (req, res, next) => {
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   // доставли из переменной окружения секретный ключ. Переменная в файле .env
-  const { JWT_SECRET } = process.env;
+  const { JWT_SECRET = 'secret-key' } = process.env;
   return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });

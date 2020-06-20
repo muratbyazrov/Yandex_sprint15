@@ -22,7 +22,7 @@ module.exports = (req, res, next) => {
   */
   let payload;
   try {
-    const { JWT_SECRET } = process.env;
+    const { JWT_SECRET = 'secret-key' } = process.env;
     payload = jwt.verify(token, JWT_SECRET);
   } catch (err) {
     // в ошибке выше проверяется, есть ли токен вообще, а тут правильный ли он
