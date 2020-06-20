@@ -34,7 +34,8 @@ const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/Logger');
 
 // Подключили роуты
-const { usersRouter, usersRouterSignin, usersRouterSignup } = require('./routes/usersRout');
+const { usersRouter } = require('./routes/usersRout');
+const { usersRouterSignin, usersRouterSignup } = require('./routes/index');
 const cardsRouter = require('./routes/cardsRout');
 // const path = require('path');
 
