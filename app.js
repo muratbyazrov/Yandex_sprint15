@@ -34,7 +34,7 @@ const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/Logger');
 
 // Подключили роуты
-const usersRouter = require('./routes/usersRout');
+const { usersRouter, usersRouterSignin, usersRouterSignup } = require('./routes/usersRout');
 const cardsRouter = require('./routes/cardsRout');
 // const path = require('path');
 
@@ -69,6 +69,8 @@ app.use('/crash-test', () => {
 
 app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
+app.use('/signup', usersRouterSignup);
+app.use('/signin', usersRouterSignin);
 
 app.all('/*', (req, res) => {
   res.status(404).send({ message: 'Запрашиваемый ресурс не найден' });

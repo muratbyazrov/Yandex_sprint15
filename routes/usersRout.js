@@ -1,5 +1,7 @@
 // У express есть метод Router, который позволяет навешивать обработчики
 const usersRouter = require('express').Router();
+const usersRouterSignup = require('express').Router();
+const usersRouterSignin = require('express').Router();
 
 // подключим предварительную валидацию с помощью библиотек
 const { celebrate, Joi } = require('celebrate');
@@ -28,7 +30,7 @@ usersRouter.get('/:id', celebrate({
     id: Joi.objectId(),
   }),
 }), auth, getUserById);
-usersRouter.post('/signup', celebrate({
+usersRouterSignup.post('/', celebrate({
   // body должно быть объектом с ключами name, about, ... с такими-то параметрами
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
@@ -42,11 +44,11 @@ usersRouter.post('/signup', celebrate({
     password: Joi.string().required().min(8),
   }).unknown(true),
 }), createUser);
-usersRouter.post('/signin', celebrate({
+usersRouterSignin.post('/', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
   }),
 }), login);
 
-module.exports = usersRouter;
+module.exports = { usersRouter, usersRouterSignup, usersRouterSignin };
