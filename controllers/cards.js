@@ -38,8 +38,8 @@ module.exports.deleteCard = async (req, res, next) => {
       if (JSON.stringify(card.owner) !== JSON.stringify(req.user._id)) {
         throw new Forbidden('карточка существует, но она не ваша');
       }
-      res.send({ data: card });
-      return card.remove();
+      return card.remove()
+        .then(res.send({ data: card }));
     })
     .catch(next);
 };
