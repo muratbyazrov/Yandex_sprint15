@@ -1,6 +1,6 @@
 // У express есть метод Router, который позволяет навешивать обработчики
-const usersRouterSignup = require('express').Router();
-const usersRouterSignin = require('express').Router();
+const signup = require('express').Router();
+const signin = require('express').Router();
 
 // подключим предварительную валидацию с помощью библиотек
 const { celebrate, Joi } = require('celebrate');
@@ -11,11 +11,9 @@ const validator = require('validator');
 const BadReq = require('../errors/bad-req');
 
 // Экспортировали обработчики
-const {
-  createUser, login,
-} = require('../controllers/users');
+const { createUser, login } = require('../controllers/users');
 
-usersRouterSignup.post('/', celebrate({
+signup.post('/', celebrate({
   // body должно быть объектом с ключами name, about, ... с такими-то параметрами
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
@@ -29,11 +27,11 @@ usersRouterSignup.post('/', celebrate({
     password: Joi.string().required().min(8),
   }).unknown(true),
 }), createUser);
-usersRouterSignin.post('/', celebrate({
+signin.post('/', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
   }),
 }), login);
 
-module.exports = { usersRouterSignup, usersRouterSignin };
+module.exports = { signup, signin };
