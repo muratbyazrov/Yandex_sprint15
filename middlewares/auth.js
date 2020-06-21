@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
   const jwtCookies = req.cookies.jwt;
   // убеждаемся что куки пришел не пустым
   if (!jwtCookies) {
-    throw new Unauthorized('Необходима авторизация!');
+    throw new Unauthorized('Необходима авторизация');
   }
   /*
   убедимся, что в куки записан именно тот jwt, который ранее пользователь присылал.
