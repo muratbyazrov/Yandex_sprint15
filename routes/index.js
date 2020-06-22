@@ -25,7 +25,7 @@ signup.post('/', celebrate({
     }),
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
-  }).unknown(true),
+  }),
 }), createUser);
 signin.post('/', celebrate({
   body: Joi.object().keys({

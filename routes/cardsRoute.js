@@ -25,7 +25,7 @@ cardsRouter.post('/', celebrate({
         throw new BadReq('В поле \'link\' вставьте ссылку');
       } else { return value; }
     }),
-  }).unknown(true),
+  }),
 }), auth, createCard);
 cardsRouter.delete('/:cardId', celebrate({
   params: Joi.object().keys({
