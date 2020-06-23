@@ -12,6 +12,9 @@ const mongoose = require('mongoose');
 // Этот модуль объединяет приходящие пакеты из запросв. Они доступны так: const { body } = req;
 const bodyParser = require('body-parser');
 
+// модуль, чтобы удобно извлекать токен из куков
+const cookieParser = require('cookie-parser');
+
 // Это модуль модуль нужен для безопасности https://expressjs.com/ru/advanced/best-practice-security.html
 const helmet = require('helmet');
 
@@ -31,11 +34,12 @@ const limiter = rateLimit({
 const { errors } = require('celebrate');
 
 // подключили логгеры - запись запросов и ошибок
-const { requestLogger, errorLogger } = require('./middlewares/Logger');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 // Подключили роуты
-const usersRouter = require('./routes/usersRout');
-const cardsRouter = require('./routes/cardsRout');
+const { usersRouter } = require('./routes/usersRoute');
+const { signin, signup } = require('./routes/index');
+const cardsRouter = require('./routes/cardsRoute');
 // const path = require('path');
 
 // Так мы создали приложение на экспресс
@@ -67,8 +71,12 @@ app.use('/crash-test', () => {
   }, 2500);
 });
 
+app.use(cookieParser()); // подключаем парсер кук как мидлвэр
+
 app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
+app.use('/signup', signup);
+app.use('/signin', signin);
 
 app.all('/*', (req, res) => {
   res.status(404).send({ message: 'Запрашиваемый ресурс не найден' });
@@ -107,7 +115,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   // eslint-disable-next-line no-console
   .then(() => { console.log('БД подключена!'); })
   // eslint-disable-next-line no-console
-  .catch(() => { console.log('БД не подключена!'); });
+  .catch(() => { console.log('БД не подключена(('); });
 
 
 // Наше приложение буде слушать запросы, которые приходят на PORT

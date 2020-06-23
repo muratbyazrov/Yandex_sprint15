@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
       },
     },
   },
-  /* пароль должен быть уникальным. Поэтому импользем unique.
+  /* Почта должна быть уникальной. Поэтому импользем unique.
   Адрес почты должен валидироваться */
   email: {
     type: String,
@@ -67,12 +67,12 @@ userSchema.statics.findUserByCredentials = function (email, password) {
     .select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(new Error('Неправильные почта или пароль!'));
+        return Promise.reject(new Error('Неправильные почта или пароль'));
       }
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            return Promise.reject(new Error('Неправильные почта или пароль!!'));
+            return Promise.reject(new Error('Неправильные почта или пароль'));
           }
           return user;
         });
